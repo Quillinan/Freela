@@ -1,2 +1,2 @@
-# Get-Samurai
-Front de um projeto Full-Stack para assinatura de serviços
+# Freela
+Front de um projeto Full-Stack simulando um freelance para assinatura de serviços.
