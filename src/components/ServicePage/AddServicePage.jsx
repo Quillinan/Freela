@@ -42,8 +42,6 @@ export default function AddServicePage() {
     } catch (error) {
       console.error("Erro na requisição:", error);
       alert("Ocorreu um erro na requisição. Tente novamente mais tarde.");
-    } finally {
-      setLoading(false);
     }
   };
 
