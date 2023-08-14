@@ -45,7 +45,7 @@ export default function HomePage() {
     <PageContainer>
       <UserBar>
         <p>Olá</p>
-        <img src="addIcon.svg" alt="AddIcon" onClick={handleAddClick} />
+        <img src="/addIcon.svg" alt="AddIcon" onClick={handleAddClick} />
       </UserBar>
 
       {services.map((service) => (
@@ -54,7 +54,7 @@ export default function HomePage() {
           onClick={() => handleServiceClick(service.id)}
         >
           <Title className="title">
-            <img src="samuraiIcon.svg" alt="Icone" />
+            <img src="/samuraiIcon.svg" alt="Icone" />
             <p>{service.name}</p>
           </Title>
           <Description>
@@ -88,6 +88,9 @@ const UserBar = styled.div`
   img {
     width: 40px;
     height: 40px;
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
