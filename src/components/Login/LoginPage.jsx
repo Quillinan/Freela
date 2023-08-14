@@ -1,7 +1,6 @@
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../UserContext/UserContext";
 import LoadingAnimation from "../Loading/Loading";
 
 export default function LoginPage() {
@@ -10,7 +9,6 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
-  const { setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
@@ -22,7 +20,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,18 +30,18 @@ export default function LoginPage() {
 
       if (response.ok) {
         const data = await response.json();
-        const { membership } = data;
+        const { token } = data;
 
-        localStorage.setItem("user", JSON.stringify(data));
+        localStorage.setItem("token", token);
 
-        if (membership !== null) {
-          navigate("/home");
-        }
+        navigate("/home");
       } else {
+        setLoading(false);
         alert("Usuário ou senha inválidos. Tente novamente.");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
+      setLoading(false);
       alert("Ocorreu um erro na requisição. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
@@ -55,17 +53,12 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
 
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-
-      if (parsedUser.membership !== null) {
-        navigate("/home");
-      }
+    if (storedToken) {
+      navigate("/home");
     }
-  }, [navigate, setUser]);
+  }, [navigate]);
 
   if (loading) {
     return <LoadingAnimation />;

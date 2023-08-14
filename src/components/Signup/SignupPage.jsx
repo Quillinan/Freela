@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoadingAnimation from "../Loading/Loading";
 
 export default function SignUpPage() {
@@ -49,15 +49,25 @@ export default function SignUpPage() {
       if (response.ok) {
         navigate("/");
       } else {
+        setLoading(false);
         alert("Ocorreu um erro no cadastro. Tente novamente.");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
+      setLoading(false);
       alert("Ocorreu um erro na requisição. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+
+    if (storedToken) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   if (loading) {
     return <LoadingAnimation />;
