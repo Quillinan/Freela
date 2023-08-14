@@ -1,11 +1,11 @@
-import MoonLoader from 'react-spinners/MoonLoader';
-import styled from 'styled-components';
+import MoonLoader from "react-spinners/MoonLoader";
+import styled from "styled-components";
 
 export default function LoadingAnimation() {
   return (
     <Position>
       <p>Carregando...</p>
-      <MoonLoader color={'#ffffff'} size={100} speedMultiplier={0.5} />
+      <MoonLoader color={"#000000"} size={100} speedMultiplier={0.5} />
     </Position>
   );
 }
@@ -22,10 +22,10 @@ const Position = styled.div`
   justify-content: center;
   z-index: 999;
   p {
-    font-family: 'Roboto';
+    font-family: "Poppins";
     font-size: 32px;
     font-weight: 400;
-    color: #ffffff;
+    color: #000000;
     margin-bottom: 30px;
   }
 `;

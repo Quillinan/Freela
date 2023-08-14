@@ -51,7 +51,7 @@ export default function LoginPage() {
   };
 
   const handleRegisterClick = () => {
-    navigate("/sign-up");
+    navigate("/signup");
   };
 
   useEffect(() => {
@@ -109,5 +109,6 @@ const PageContainer = styled.div`
     font-size: 14px;
     text-decoration-line: underline;
     color: #000000;
+    cursor: pointer;
   }
 `;

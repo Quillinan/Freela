@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import LoadingAnimation from "../Loading/Loading";
 
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
-    cpf: "",
+    city: "",
+    phone: "",
     email: "",
     password: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLoginClick = () => {
     navigate("/");
@@ -19,8 +23,19 @@ export default function SignUpPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== confirmPassword) {
+      alert("As senhas não coincidem. Por favor, verifique.");
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const response = await fetch(import.meta.env.VITE_API_URL, {
@@ -39,8 +54,14 @@ export default function SignUpPage() {
     } catch (error) {
       console.error("Erro na requisição:", error);
       alert("Ocorreu um erro na requisição. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <LoadingAnimation />;
+  }
 
   return (
     <PageContainer>
@@ -52,9 +73,15 @@ export default function SignUpPage() {
           onChange={handleInputChange}
         />
         <input
-          name="cpf"
-          placeholder="CPF"
-          value={formData.cpf}
+          name="city"
+          placeholder="Cidade"
+          value={formData.city}
+          onChange={handleInputChange}
+        />
+        <input
+          name="phone"
+          placeholder="Telefone"
+          value={formData.phone}
           onChange={handleInputChange}
         />
         <input
@@ -70,6 +97,13 @@ export default function SignUpPage() {
           value={formData.password}
           onChange={handleInputChange}
         />
+        <input
+          name="confirmPassword"
+          placeholder="Confirmar senha"
+          type="password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
+        />
         <button type="submit">CADASTRAR</button>
       </form>
       <p onClick={handleLoginClick}>Já possui uma conta? Entre</p>
@@ -83,11 +117,12 @@ const PageContainer = styled.div`
   flex-direction: column;
   padding-top: 150px;
   p {
-    font-family: "Roboto";
+    font-family: "Poppins";
     font-size: 14px;
     font-weight: 400;
     margin-top: 24px;
     text-decoration-line: underline;
-    color: #ffffff;
+    color: #000000;
+    cursor: pointer;
   }
 `;
