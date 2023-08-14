@@ -67,6 +67,7 @@ export default function LoginPage() {
   return (
     <PageContainer>
       <h1>Get Samurai</h1>
+      <img src="/logo.png" alt="Logo" />
       <form onSubmit={handleSubmit}>
         <input
           name="email"
@@ -92,16 +93,19 @@ const PageContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-top: 134px;
+  margin-top: 24px;
   gap: 24px;
+  font-family: "Poppins";
   h1 {
-    margin-bottom: 76px;
+    color: #000000;
   }
   p {
-    font-family: "Poppins";
     font-size: 14px;
     text-decoration-line: underline;
     color: #000000;
     cursor: pointer;
+  }
+  img {
+    height: 300px;
   }
 `;

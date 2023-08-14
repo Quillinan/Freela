@@ -75,6 +75,7 @@ export default function SignUpPage() {
 
   return (
     <PageContainer>
+      <h1>Cadastro</h1>
       <form onSubmit={handleSubmit}>
         <input
           name="name"
@@ -125,7 +126,12 @@ const PageContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 150px;
+  padding-top: 15px;
+  gap: 24px;
+  h1 {
+    font-family: "Poppins";
+    color: #000000;
+  }
   p {
     font-family: "Poppins";
     font-size: 14px;

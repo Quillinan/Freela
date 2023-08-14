@@ -19,6 +19,32 @@ export default function ProfilePage() {
     navigate(`/service/${serviceId}`);
   };
 
+  const handleLogoutClick = async () => {
+    const confirmLogout = window.confirm("Deseja realmente fazer logout?");
+
+    if (confirmLogout) {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          localStorage.removeItem("token");
+          navigate("/");
+        } else {
+          console.error("Erro ao fazer logout.");
+        }
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    }
+  };
+
   const handleDeleteClick = async (serviceId) => {
     const confirmDelete = window.confirm("Deseja realmente deletar o serviço?");
 
@@ -106,12 +132,12 @@ export default function ProfilePage() {
 
   return (
     <PageContainer>
-      <img
-        src="/backIcon.svg"
-        alt="Back"
-        className="backImg"
-        onClick={handleBackClick}
-      />
+      <Topbar>
+        <img src="/backIcon.svg" alt="Back" onClick={handleBackClick} />
+
+        <img src="/logoutIcon.svg" alt="Logout" onClick={handleLogoutClick} />
+      </Topbar>
+
       <UserBar>
         <p>Seus serviços:</p>
         <img src="/addIcon.svg" alt="AddIcon" onClick={handleAddClick} />
@@ -164,14 +190,6 @@ const PageContainer = styled.div`
   height: calc(100vh - 42px);
   font-family: "Poppins", sans-serif;
   overflow-y: auto;
-  .backImg {
-    width: 30px;
-    height: 30px;
-    align-self: self-start;
-    &:hover {
-      cursor: pointer;
-    }
-  }
 `;
 
 const UserBar = styled.div`
@@ -247,6 +265,20 @@ const Title = styled.div`
     gap: 10px;
   }
   img {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+const Topbar = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  img {
+    width: 30px;
+    height: 30px;
     &:hover {
       cursor: pointer;
     }
