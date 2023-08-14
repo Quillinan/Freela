@@ -2,7 +2,7 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 	*{
-		background: #ffffff;
+		background-color: #f0f0f0;
 		font-family: 'Poppins', sans-serif;
 	}
 	button {
