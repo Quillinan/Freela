@@ -55,6 +55,12 @@ export default function AddServicePage() {
     return <LoadingAnimation />;
   }
 
+  useEffect(() => {
+    if (!token) {
+      navigate("/");
+    }
+  }, [token, navigate]);
+
   return (
     <PageContainer>
       <Header>

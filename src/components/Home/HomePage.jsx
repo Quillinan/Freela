@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import LoadingAnimation from "../Loading/Loading";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
 
   const handleAddClick = () => {
     navigate("/service");
@@ -21,38 +19,35 @@ export default function HomePage() {
     navigate(`/service/${serviceId}`);
   };
 
-  if (loading) {
-    return <LoadingAnimation />;
-  }
-
   useEffect(() => {
-    setLoading(true);
+    if (!token) {
+      navigate("/");
+    } else {
+      async function fetchServices() {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/services/all`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-    async function fetchServices() {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/services/all`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+          if (response.ok) {
+            const data = await response.json();
+            setServices(data);
+          } else {
+            console.error("Erro ao buscar serviços.");
           }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setServices(data);
-        } else {
-          console.error("Erro ao buscar serviços.");
+        } catch (error) {
+          console.error("Erro na requisição:", error);
         }
-      } catch (error) {
-        console.error("Erro na requisição:", error);
       }
-    }
-    setLoading(false);
 
-    fetchServices();
-  }, [token]);
+      fetchServices();
+    }
+  }, [token, navigate]);
 
   return (
     <PageContainer>

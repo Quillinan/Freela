@@ -24,6 +24,7 @@ export default function ProfilePage() {
 
     if (confirmLogout) {
       const token = localStorage.getItem("token");
+      localStorage.removeItem("token");
 
       try {
         const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
@@ -34,7 +35,6 @@ export default function ProfilePage() {
         });
 
         if (response.ok) {
-          localStorage.removeItem("token");
           navigate("/");
         } else {
           console.error("Erro ao fazer logout.");
@@ -105,30 +105,36 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    async function fetchServices() {
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/services/user`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+    if (!token) {
+      navigate("/");
+    } else {
+      setLoading(true);
+      async function fetchServices() {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/services/user`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+            setServices(data);
+            setLoading(false);
+          } else {
+            console.error("Erro ao buscar serviços.");
           }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setServices(data);
-        } else {
-          console.error("Erro ao buscar serviços.");
+        } catch (error) {
+          console.error("Erro na requisição:", error);
         }
-      } catch (error) {
-        console.error("Erro na requisição:", error);
       }
-    }
 
-    fetchServices();
-  }, [token]);
+      fetchServices();
+    }
+  }, [token, navigate]);
 
   return (
     <PageContainer>

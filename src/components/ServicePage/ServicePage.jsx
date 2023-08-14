@@ -8,12 +8,13 @@ export default function ServicePage() {
   const { idService } = useParams();
   const [serviceData, setServiceData] = useState({});
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setLoading(true);
-
-    if (token) {
+    if (!token) {
+      navigate("/");
+    } else {
+      setLoading(true);
       fetch(`${import.meta.env.VITE_API_URL}/services/${idService}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,11 +30,7 @@ export default function ServicePage() {
           setLoading(false);
         });
     }
-  }, [idService]);
-
-  const handleBackClick = () => {
-    navigate("/home");
-  };
+  }, [idService, token, navigate]);
 
   if (loading) {
     return <LoadingAnimation />;
