@@ -67,7 +67,7 @@ export default function ProfilePage() {
         console.error("Erro na requisição:", error);
       }
     }
-    window.location.reload();
+    updateUserServices();
   };
 
   const handleActiveClick = async (serviceId) => {
@@ -101,36 +101,36 @@ export default function ProfilePage() {
         console.error("Erro na requisição:", error);
       }
     }
-    window.location.reload();
+    updateUserServices();
+  };
+
+  const updateUserServices = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/services/user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setServices(data);
+      } else {
+        console.error("Erro ao buscar serviços do usuário.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+    }
   };
 
   useEffect(() => {
     if (!token) {
       navigate("/");
     } else {
-      async function fetchServices() {
-        try {
-          const response = await fetch(
-            `${import.meta.env.VITE_API_URL}/services/user`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.ok) {
-            const data = await response.json();
-            setServices(data);
-          } else {
-            console.error("Erro ao buscar serviços.");
-          }
-        } catch (error) {
-          console.error("Erro na requisição:", error);
-        }
-      }
-
-      fetchServices();
+      updateUserServices();
     }
   }, [token, navigate]);
 
