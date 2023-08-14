@@ -47,16 +47,18 @@ export default function ServicePage() {
           className="backImg"
           onClick={handleBackClick}
         />
-        <img
-          src={serviceData.image}
-          alt="Service Image"
-          className="serviceImg"
-        />
+        <BorderImg>
+          <img
+            src={serviceData.photo}
+            alt="Service Image"
+            className="serviceImg"
+          />
+        </BorderImg>
+
         <p>{serviceData.name}</p>
       </Header>
       <Container>
         <Title>
-          <p>Dados do prestador:</p>
           <p>Nome: {serviceData.ownerName}</p>
           <p>Email: {serviceData.ownerEmail}</p>
           <p>Telefone: {serviceData.ownerPhone}</p>
@@ -97,9 +99,19 @@ const Header = styled.div`
     }
   }
   .serviceImg {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
   }
+`;
+
+const BorderImg = styled.div`
+  width: 100px;
+  height: 100px;
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
 `;
 
 const Container = styled.div`

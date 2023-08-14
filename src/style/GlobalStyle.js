@@ -18,7 +18,11 @@ const GlobalStyle = createGlobalStyle`
 		justify-content: center;
 		text-align: center;
 		color: #FFFFFF;
-		margin-top: 8px;
+		margin-top: 16px;
+		&:hover {
+      	cursor: pointer;
+    	}
+
 	}
 	input {
     width: 272px;
