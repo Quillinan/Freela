@@ -10,6 +10,10 @@ export default function ServicePage() {
   const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("token");
 
+  const handleBackClick = () => {
+    navigate("/home");
+  };
+
   useEffect(() => {
     if (!token) {
       navigate("/");

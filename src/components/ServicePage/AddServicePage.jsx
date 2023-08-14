@@ -6,10 +6,9 @@ import LoadingAnimation from "../Loading/Loading";
 export default function AddServicePage() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
 
   const handleBackClick = () => {
-    navigate("/home");
+    navigate(-1);
   };
 
   const [formData, setFormData] = useState({
@@ -24,7 +23,6 @@ export default function AddServicePage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/services`, {
@@ -39,21 +37,15 @@ export default function AddServicePage() {
       if (response.ok) {
         navigate("/home");
       } else {
-        setLoading(false);
         alert("Erro ao adicionar o serviço. Tente novamente.");
       }
     } catch (error) {
       console.error("Erro na requisição:", error);
-      setLoading(false);
       alert("Ocorreu um erro na requisição. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading) {
-    return <LoadingAnimation />;
-  }
 
   useEffect(() => {
     if (!token) {

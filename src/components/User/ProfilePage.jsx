@@ -108,7 +108,6 @@ export default function ProfilePage() {
     if (!token) {
       navigate("/");
     } else {
-      setLoading(true);
       async function fetchServices() {
         try {
           const response = await fetch(
@@ -123,7 +122,6 @@ export default function ProfilePage() {
           if (response.ok) {
             const data = await response.json();
             setServices(data);
-            setLoading(false);
           } else {
             console.error("Erro ao buscar serviços.");
           }
