@@ -51,6 +51,10 @@ export default function AddServicePage() {
     }
   };
 
+  if (loading) {
+    return <LoadingAnimation />;
+  }
+
   return (
     <PageContainer>
       <Header>

@@ -11,6 +11,7 @@ export default function ServicePage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    setLoading(true);
 
     if (token) {
       fetch(`${import.meta.env.VITE_API_URL}/services/${idService}`, {

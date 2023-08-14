@@ -6,6 +6,7 @@ import SignUpPage from "./components/Signup/SignupPage";
 import HomePage from "./components/Home/HomePage";
 import ServicePage from "./components/ServicePage/ServicePage";
 import AddServicePage from "./components/ServicePage/AddServicePage";
+import ProfilePage from "./components/User/ProfilePage";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/service/:idService" element={<ServicePage />} />
           <Route path="/service" element={<AddServicePage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </>

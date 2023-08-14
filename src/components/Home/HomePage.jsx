@@ -1,21 +1,33 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "../Loading/Loading";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(false);
 
   const handleAddClick = () => {
     navigate("/service");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
   };
 
   const handleServiceClick = (serviceId) => {
     navigate(`/service/${serviceId}`);
   };
 
+  if (loading) {
+    return <LoadingAnimation />;
+  }
+
   useEffect(() => {
+    setLoading(true);
+
     async function fetchServices() {
       try {
         const response = await fetch(
@@ -37,6 +49,7 @@ export default function HomePage() {
         console.error("Erro na requisição:", error);
       }
     }
+    setLoading(false);
 
     fetchServices();
   }, [token]);
@@ -44,7 +57,16 @@ export default function HomePage() {
   return (
     <PageContainer>
       <UserBar>
-        <p>Olá</p>
+        <div>
+          <img
+            className="profileImg"
+            src="/profileIcon.svg"
+            alt="IconePerfil"
+            onClick={handleProfileClick}
+          />
+          <p>Olá</p>
+        </div>
+
         <img src="/addIcon.svg" alt="AddIcon" onClick={handleAddClick} />
       </UserBar>
 
@@ -91,6 +113,17 @@ const UserBar = styled.div`
     &:hover {
       cursor: pointer;
     }
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .profileImg {
+    border-radius: 100%;
+    border: 1px solid #000000;
+    background-color: #fff;
   }
 `;
 
@@ -140,6 +173,7 @@ const Title = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: start;
+  align-items: center;
   font-size: 20px;
   gap: 10px;
 `;
